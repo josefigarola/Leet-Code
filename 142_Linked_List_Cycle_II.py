@@ -10,14 +10,10 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-
         # Use Floyd's Cycle Detection Algorithm
         slow = head # moves by one
         fast = head # moves by two
-
-        print(slow)
         stack = []
-        meeting_point = None  # Track the meeting point
 
         while(fast.next != None and fast != None):
             if(slow.val not in stack):
@@ -35,11 +31,14 @@ class Solution(object):
                 while(slow != tmp):
                     slow = slow.next
                     tmp = tmp.next
-                
-                print(slow.val)
-                pos_val = slow.val
                 break
 
-        print(stack)
+        print('stack', stack)
+        
+        for i in range(len(stack)-1):
+            if(stack[i] == slow.val):
+                msg = 'tail connects to node index ' + str(i)
+                print(msg)
+                return msg
 
         #return -1
