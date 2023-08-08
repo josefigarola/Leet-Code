@@ -1,27 +1,27 @@
-class Solution(object):
-    def maxArea(self, height):
-        """
-        :type height: List[int]
-        :rtype: int
-        """
-
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
         maxArea = 0
+        left = 0
+        right = len(height) - 1
 
         if(len(height) == 1):
             return height[0]
 
-        for i in range(0,len(height)):
-            p1,p2 = i,i+1
-            while(p1<=len(height) and p2<len(height)):
-                #print(height[p1],height[p2])
-                h = 0
-                if(height[p2] < height[p1]):
-                    h = height[p2]
-                else:
-                    h = height[p1]
+        while(left < right):
+            # difference between indices
+            width = right - left
+            
+            #  (minimum of the two heights)
+            container_height = min(height[left], height[right])
+            
+            # Calculate the area of the container and update max_water if needed
+            area = width * container_height
+            maxArea = max(maxArea, area)
+            
+            # Move the pointers towards each other based on which side has the shorter height
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
 
-                if((p2-p1)*h > maxArea):
-                    maxArea = (p2-p1)*h
-                #print('Area ',maxArea)
-                p2+=1
         return maxArea
