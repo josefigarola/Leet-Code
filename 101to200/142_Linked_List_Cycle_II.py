@@ -1,8 +1,8 @@
 # Definition for singly-linked list.
-class ListNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 class Solution(object):
     def detectCycle(self, head):
@@ -10,35 +10,21 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-        # Use Floyd's Cycle Detection Algorithm
-        slow = head # moves by one
-        fast = head # moves by two
-        stack = []
+        slow = head
+        fast = head
+        has_cycle = False
 
-        while(fast.next != None and fast != None):
-            if(slow.val not in stack):
-                stack.append(slow.val)
-
+        while(not has_cycle and fast and fast.next):
             slow = slow.next
             fast = fast.next.next
+            has_cycle = slow == fast
 
-            if(slow == fast):
-                tmp = head
+        if(not has_cycle):
+            return None
 
-                if(slow.val not in stack):
-                    stack.append(slow.val)
+        p1 = head
+        while(p1 != slow):
+            p1 = p1.next
+            slow = slow.next
 
-                while(slow != tmp):
-                    slow = slow.next
-                    tmp = tmp.next
-                break
-
-        print('stack', stack)
-        
-        for i in range(len(stack)-1):
-            if(stack[i] == slow.val):
-                msg = 'tail connects to node index ' + str(i)
-                print(msg)
-                return msg
-
-        #return -1
+        return p1
